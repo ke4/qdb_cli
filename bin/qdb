@@ -1,0 +1,134 @@
+#! /usr/bin/env perl
+
+use strict;
+use warnings;
+use Getopt::Long;
+use FindBin qw($Bin);
+use lib ( "$Bin/../lib" );
+use QDB::Commands qw/status queues messages timeline inputs outputs/;
+
+if (!defined $ENV{'QDB_URI'}) {
+  _err("Missing QDB_URI environment variable");
+  help();
+  exit(1);
+}
+
+my %params = (
+  verbose          => '',
+  dry_run          => '',
+  gc               => '',
+  delete           => '',
+  create           => '',
+  max_size         => '',
+  max_payload_size => '',
+  timeout          => '1',
+  headers          => 1,
+  single           => '',
+  from_id          => '1',
+  from             => '',
+  to               => '',
+  routing_key      => '',
+  grep             => '',
+  bucket           => '',
+  url              => 'amqp://127.0.0.1',
+  queue            => '',
+  exchange         => '',
+  queues           => '',
+);
+
+GetOptions(
+  'gc'               => \$params{'gc'},
+  'delete'           => \$params{'delete'},
+  'create'           => \$params{'create'},
+  'max-size=s'       => \$params{'max_size'},
+  'max-payload-size' => \$params{'max_payload_size'},
+  'verbose'          => \$params{'verbose'},
+  'dry-run'          => \$params{'dry_run'},
+  'single'           => \$params{'single'},
+  'from-id=s'        => \$params{'from_id'},
+  'from=s'           => \$params{'from'},
+  'to=s'             => \$params{'to'},
+  'routing-key=s'    => \$params{'routing_key'},
+  'timeout=s'        => \$params{'timeout'},
+  'headers!'         => \$params{'headers'},
+  'grep=s'           => \$params{'grep'},
+  'bucket=i'         => \$params{'bucket'},
+  'url=s'            => \$params{'url'},
+  'queue=s'          => \$params{'queue'},
+  'queues=s'         => \$params{'queues'},
+  'exchange=s'       => \$params{'exchange'},
+);
+
+my %commands = (
+  help     => \&help,
+  status   => \&status,
+  queues   => \&queues,
+  messages => \&messages,
+  timeline => \&timeline,
+  inputs   => \&inputs,
+  outputs  => \&outputs,
+);
+
+sub main {
+  if (scalar @ARGV == 0) {
+    help();
+  } elsif (exists $commands{$ARGV[0]} ) {
+    my $command = shift @ARGV;
+    $params{'argv'} = \@ARGV;
+    _curl($commands{$command}->(%params));
+  } else {
+    _err("Command not recognised");
+    help();
+    exit(1);
+  }
+}
+
+sub help {
+  _out(<<'HELP'
+Example usage:
+  qdb status [--gc]
+  qdb queues [QUEUE]
+  qdb messages QUEUE
+  qdb timeline QUEUE [--bucket BUCKET_ID]
+  qdb input QUEUE [INPUT]
+  qdb output QUEUE [OUTPUT]
+HELP
+  );
+}
+
+sub _curl {
+  my ($endpoint, $url_params, $curl_params) = @_;
+  my $command = "curl -s -g";
+  my $uri = join "/", $ENV{'QDB_URI'}, $endpoint;
+
+  if ($url_params) {
+    $uri .= "?$url_params";
+  }
+
+  $command .= " \"$uri\"";
+
+  if ($curl_params) {
+    $command .= "$curl_params";
+  }
+
+  if ($params{'verbose'} || $params{'dry_run'}) {
+    _out($command);
+    return if $params{'dry_run'};
+  }
+
+  my $response = `$command 2>&1`;
+
+  _out($response);
+}
+
+sub _out {
+  print STDOUT shift . "\n\n";
+}
+
+sub _err {
+  print STDERR shift . "\n\n";
+}
+
+main();
+
+1;
