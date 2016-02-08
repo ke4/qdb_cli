@@ -116,7 +116,7 @@ is($endpoint, 'q/audit/in/rabbit');
   argv     => ['audit', 'rabbit'],
   create   => 1,
   url      => 'amqp://127.0.0.1',
-  queue    => 'backup',
+  queue    => 'rabbit',
   exchange => 'default',
 );
 
@@ -125,8 +125,8 @@ is($endpoint, 'q/audit/in/rabbit');
 contains($curl_params, '-X POST', 'inputs/create contains -X POST');
 contains($curl_params, '-d type=rabbitmq', 'inputs/create contains -d type=rabbitmq');
 contains($curl_params, '-d url=amqp://127.0.0.1', 'inputs/create contains -d url=amqp://127.0.0.1');
-contains($curl_params, '-d queue=backup', 'inputs/create contains -d queue=backup');
-contains($curl_params, '-d exchange=default', 'inputs/create contains -d queue=backup');
+contains($curl_params, '-d queue=rabbit', 'inputs/create contains -d queue=rabbit');
+contains($curl_params, '-d exchange=default', 'inputs/create contains -d exchange=default');
 
 ## Delete
 %params = (

@@ -113,8 +113,8 @@ my $create_inputs = command(sub {
       METHOD   => '-X POST',
       type     => '-d type=rabbitmq',
       url      => '-d url=%s',
-      queue    => '-d queue=backup',
-      exchange => '-d exchange=default',
+      queue    => '-d queue=%s',
+      exchange => '-d exchange=%s',
     }
   }
 });
