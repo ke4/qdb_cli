@@ -2,7 +2,6 @@ package QDB::Commands;
 
 use strict;
 use warnings;
-use Data::Dumper;
 use List::Util qw/reduce/;
 use Exporter 'import';
 our @EXPORT_OK = qw(status queues messages
