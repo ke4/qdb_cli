@@ -160,7 +160,7 @@ is($endpoint, 'q/audit/out/rabbit');
   argv        => ['audit', 'rabbit'],
   create      => 1,
   url         => 'amqp://127.0.0.1',
-  queue       => 'backup',
+  queues      => 'test_queue',
   exchange    => 'default',
   from_id     => 1,
   routing_key => 'sample',
@@ -171,8 +171,8 @@ is($endpoint, 'q/audit/out/rabbit', 'outputs/create creates the correct endpoint
 contains($curl_params, '-X POST', 'outputs/create contains -X POST');
 contains($curl_params, '-d type=rabbitmq', 'outputs/create contains -d type=rabbitmq');
 contains($curl_params, '-d url=amqp://127.0.0.1', 'outputs/create contains -d url=amqp://127.0.0.1');
-contains($curl_params, '-d queue=backup', 'outputs/create contains -d queue=backup');
-contains($curl_params, '-d exchange=default', 'outputs/create contains -d queue=backup');
+contains($curl_params, '-d queues=test_queue', 'outputs/create contains -d queues=test_queue');
+contains($curl_params, '-d exchange=default', 'outputs/create contains -d exchange=default');
 contains($curl_params, '-d routingKey=sample', 'outputs/create contains -d routingKey=sample');
 contains($curl_params, '-d fromId=1', 'outputs/create contains -d fromId=1');
 

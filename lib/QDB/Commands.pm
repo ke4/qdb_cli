@@ -146,7 +146,7 @@ my $create_output = command(sub {
       METHOD      => '-X POST',
       type        => '-d type=rabbitmq',
       url         => '-d url=%s',
-      queue       => '-d queue=backup',
+      queues      => '-d queues=%s',
       exchange    => '-d exchange=default',
       routing_key => '-d routingKey=%s',
       from_id     => '-d fromId=%s',

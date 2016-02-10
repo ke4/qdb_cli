@@ -90,8 +90,8 @@ Example usage:
   qdb queues [QUEUE]
   qdb messages QUEUE
   qdb timeline QUEUE [--bucket BUCKET_ID]
-  qdb input QUEUE [INPUT]
-  qdb output QUEUE [OUTPUT]
+  qdb inputs QUEUE [INPUT]
+  qdb outputs QUEUE [OUTPUT]
 HELP
   );
 }
