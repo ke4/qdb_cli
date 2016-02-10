@@ -64,7 +64,7 @@ contains($curl_params, '-X POST', 'queues has POST header');
 
 ($endpoint, $url_params, $curl_params) = QDB::Commands::messages(%params);
 
-is($endpoint, 'q/audit', 'message/read endpoint is correct');
+is($endpoint, 'q/audit/messages', 'message/read endpoint is correct');
 contains($url_params, 'single=true');
 contains($url_params, 'fromId=1');
 contains($url_params, 'from=2016/01/01');

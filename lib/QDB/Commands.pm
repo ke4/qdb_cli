@@ -56,7 +56,7 @@ sub queues {
 # Messages
 my $get_messages = command(sub{
   return {
-    endpoint   => \&queue_endpoint,
+    endpoint   => sub { queue_endpoint(shift) . "/messages" },
     url_params => {
       single      => 'single=true',
       from_id     => 'fromId=%s',
