@@ -148,8 +148,11 @@ my $create_output = command(sub {
       url         => '-d url=%s',
       queues      => '-d queues=%s',
       exchange    => '-d exchange=default',
+      grep        => '-d grep=%s',
       routing_key => '-d routingKey=%s',
       from_id     => '-d fromId=%s',
+      from        => 'from=%s',
+      to          => 'to=%s',
     },
   }
 });
