@@ -58,6 +58,7 @@ Deletes the given queue and gives the result of the current queues.
 Multiple messages are streamed as they come in or from a past id or timestamp.
 
 __DELETING MESSAGES???__
+At the moment deleting a message from a QDB queue is not implemented by the QDB-server application, unfortunately.
 
 ###Timeline
 
@@ -83,11 +84,11 @@ Deletes the given input and returns the rest of the inputs for the given queue_i
 
 ###Outputs
 
-**`qdb output <queue_id> [<output>]`**
+**`qdb outputs <queue_id> [<output>]`**
 
 Shows a list of current outputs for a queue.
 
-**`qdb output <queue_id> <output> --create [--url <amqp://127.0.0.1>] [--queues <rabbitmq_queue_a>[,<rabbitmq_queue_b>]] [--exchange <rabbitmq_exchange>] [--grep <expression>] [--routing-key <routing_key>] [--from-id 1] [--from <datetime>] [--to <datetime>]`**
+**`qdb outputs <queue_id> <output> --create [--url <amqp://127.0.0.1>] [--queues <rabbitmq_queue_a>[,<rabbitmq_queue_b>]] [--exchange <rabbitmq_exchange>] [--grep <expression>] [--routing-key <routing_key>] [--from-id <message_id>] [--from <datetime>] [--to <datetime>]`**
 
 Create a QDB output to a RabbitMQ queue or exchange. You can specify multiple RabbitMQ queues.
 
@@ -112,4 +113,3 @@ Retrieves all messages (including the headers) from the "audit" queue that has t
 **`qdb message audit --routing-key study`**
 
 Retrieves all messages (including the headers) from the "audit" queue that have the routing key "study".
-
